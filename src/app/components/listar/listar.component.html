@@ -1,0 +1,73 @@
+
+<p-button label="Novo" (click)="openNewTask()" ></p-button>
+
+<p-dialog header="Title" [(visible)]="newTaskDialog">
+    <div class="col-12" *ngIf="!taskSelecionada.id">
+        <span class="p-float-label">
+            <input id="descricao" type="text" pInputText [(ngModel)]="newTaskObj.descricao"> 
+            <label for="descricao">Descricao</label>
+        </span>
+    </div>
+    <div class="col-12" *ngIf="taskSelecionada.id">
+        <span class="p-float-label">
+            <input id="a" type="text" pInputText [(ngModel)]="taskSelecionada.descricao"> 
+            <label for="a">Daaaaescricao</label>
+        </span>
+    </div>
+    <p-button *ngIf="!taskSelecionada.id" label="Novo" (click)="addTask()" ></p-button>
+    <p-button *ngIf="taskSelecionada.id" label="Atualizar" (click)="updateTask(taskSelecionada)" ></p-button>
+
+</p-dialog>
+
+
+<div class="card">
+    <p-table [value]="tasks" [columns]="colunas"
+             [reorderableColumns]="true" responsiveLayout="scroll" ><!-- sortMode="multiple" -->
+        <ng-template pTemplate="header">
+            <tr><!-- 
+                <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th> -->
+                <th>
+
+                </th>
+                <th *ngFor="let col of colunas" pReorderableColumn>
+                    {{col.header}}
+                </th>
+                <th>
+                    Concluída
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task let-rowData let-columns="columns" let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+                <td>
+                    <span class="pi pi-bars" pReorderableRowHandle></span>
+                </td>  
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td> 
+                <td>
+                    <div class="field-checkbox">
+                        <p-checkbox [(ngModel)]="task.concluida" 
+                                    binary="true" inputId="binary"
+                                    (click)="taskDone(task)">
+                        </p-checkbox>
+                        <label for="binary">{{task.concluido}}</label>
+                    </div>
+                </td>
+                <td>
+                    <button pButton pRipple type="button" 
+                            icon="pi pi-times" class="p-button-rounded p-button-danger"
+                            (click)="deleteTask(rowData)">
+                    </button>
+                    <button pButton pRipple type="button" 
+                            icon="pi pi-pencil" class="p-button-rounded p-button-info"
+                            (click)="editTask(rowData)">
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
