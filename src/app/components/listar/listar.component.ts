@@ -41,7 +41,7 @@ export class ListarComponent implements OnInit {
     });
 
     this.data = {
-      labels: ['A fazer', 'Concluída'],
+      labels: ['Concluída', 'A fazer'],
       datasets: [
           {
               label: 'First Dataset',
