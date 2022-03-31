@@ -1,27 +1,33 @@
 
-<p-button label="Novo" (click)="openNewTask()" ></p-button>
-
-<p-dialog header="Title" [(visible)]="newTaskDialog">
-    <div class="col-12" *ngIf="!taskSelecionada.id">
+<p-dialog header="{{taskSelecionada.id ? 'Atualizar' : 'Cadastrar'}}" [(visible)]="newTaskDialog">
+    
+    <div class="col-12" >
         <span class="p-float-label">
-            <input id="descricao" type="text" pInputText [(ngModel)]="newTaskObj.descricao"> 
+            <input  *ngIf="!taskSelecionada.id" id="descricao" type="text" pInputText [(ngModel)]="newTaskObj.descricao"> 
+            <input  *ngIf="taskSelecionada.id" id="a" type="text" pInputText [(ngModel)]="taskSelecionada.descricao"> 
+         
             <label for="descricao">Descricao</label>
         </span>
     </div>
-    <div class="col-12" *ngIf="taskSelecionada.id">
-        <span class="p-float-label">
-            <input id="a" type="text" pInputText [(ngModel)]="taskSelecionada.descricao"> 
-            <label for="a">Daaaaescricao</label>
-        </span>
-    </div>
-    <p-button *ngIf="!taskSelecionada.id" label="Novo" (click)="addTask()" ></p-button>
-    <p-button *ngIf="taskSelecionada.id" label="Atualizar" (click)="updateTask(taskSelecionada)" ></p-button>
+    <p-button  label="{{taskSelecionada.id ? 'Atualizar' : 'Novo'}}" (click)="taskSelecionada.id ? updateTask(taskSelecionada) : addTask()" ></p-button>
 
-</p-dialog>
+</p-dialog> <!-- COMPONENTIZAR O P DIALOG -->
+
+<div class="col-12 flex justify-content-center">
+    <div style="max-width: 231px;"  *ngIf="tasks.length > 0">
+        <p-chart type="pie" [data]="data" [options]="options"  ></p-chart>
+    </div>
+
+    <div style="max-width: 231px;"  *ngIf="tasks.length < 1">
+         Sem dados
+    </div>
+</div>
+<p-button label="Novo" (click)="openNewTask()" ></p-button>
+
 
 
 <div class="card">
-    <p-table [value]="tasks" [columns]="colunas"
+    <p-table [value]="tasks" [columns]="colunas" 
              [reorderableColumns]="true" responsiveLayout="scroll" ><!-- sortMode="multiple" -->
         <ng-template pTemplate="header">
             <tr><!-- 
@@ -29,11 +35,13 @@
                 <th>
 
                 </th>
-                <th *ngFor="let col of colunas" pReorderableColumn>
+                <th *ngFor="let col of colunas" pReorderableColumn  pSortableColumn="descricao">
                     {{col.header}}
+                    <p-sortIcon field="descricao"></p-sortIcon>
                 </th>
-                <th>
+                <th pSortableColumn="concluida">
                     Concluída
+                    <p-sortIcon field="concluida"></p-sortIcon>
                 </th>
                 <th>
                     
@@ -41,12 +49,14 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task let-rowData let-columns="columns" let-index="rowIndex">
-            <tr [pReorderableRow]="index">
+            <tr [pReorderableRow]="index" [ngClass]="{'bg-green' : task.concluida , 'bg-red' : !task.concluida}">
                 <td>
                     <span class="pi pi-bars" pReorderableRowHandle></span>
                 </td>  
                 <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
+                    <div class="" [taskDone]="task.concluida">
+                        {{rowData[col.field]}}
+                    </div>
                 </td> 
                 <td>
                     <div class="field-checkbox">
@@ -54,7 +64,6 @@
                                     binary="true" inputId="binary"
                                     (click)="taskDone(task)">
                         </p-checkbox>
-                        <label for="binary">{{task.concluido}}</label>
                     </div>
                 </td>
                 <td>

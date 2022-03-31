@@ -17,7 +17,7 @@ export class TaskService {
   newTask(task: Task){  
     const tasks = this.getTasks();
 
-    task.id = tasks.length + 1;
+    task.id = new Date().getTime();
     tasks.push(task);
    
     localStorage.setItem('Tasks', JSON.stringify(tasks));

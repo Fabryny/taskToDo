@@ -1,35 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ButtonModule } from 'primeng/button';
-import {DialogModule} from 'primeng/dialog';
-import {TableModule} from 'primeng/table';
-import {InputTextModule} from 'primeng/inputtext';
-import {CheckboxModule} from 'primeng/checkbox';
-
-
 import { ListarComponent } from './listar/listar.component';
 import { CadastrarComponent } from './cadastrar/cadastrar.component';
 import { FormsModule } from '@angular/forms';
+import { TaskDoneDirective } from '../shared/driectives/task-done.directive';
+import { PRIMENG_IMPORTS } from './primeNg-imports';
 
 
 
 @NgModule({
   declarations: [
     ListarComponent,
-    CadastrarComponent
+    CadastrarComponent,
+    TaskDoneDirective
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ButtonModule,
-    DialogModule,
-    InputTextModule,
-    CheckboxModule,
-    TableModule
+
+    ...PRIMENG_IMPORTS
   ],
   exports:[
-    ListarComponent
+    ListarComponent,
+    CadastrarComponent,
+    TaskDoneDirective,
+
+    ...PRIMENG_IMPORTS
   ]
   
 })

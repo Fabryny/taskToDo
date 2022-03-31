@@ -9,8 +9,10 @@ import { TaskService } from 'src/app/shared/services/task.service';
 })
 export class ListarComponent implements OnInit {
 
-  newTaskObj: Task = new 
-  Task;
+  data: any;    
+  options: any;
+  
+  newTaskObj: Task = new Task;
   newTaskDialog: boolean = false;
   tasks: Task[];
   taskSelecionada: Task = new Task;
@@ -20,22 +22,85 @@ export class ListarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTasks();
-
     this.colunas = [
       { field: 'descricao', header: 'Descrição'},
-
-      
     ]
   }
 
   getTasks(){
     this.tasks = this.taskService.getTasks();
+    this.getData();
   }
 
+  getData(){
+    let toDo: number = 0;
+    let done: number = 0;
 
+    this.tasks.forEach(element => {
+      element.concluida ? toDo += 1 : done += 1;
+    });
+
+    this.data = {
+      labels: ['A fazer', 'Concluída'],
+      datasets: [
+          {
+              label: 'First Dataset',
+              data: [toDo, done],    
+               backgroundColor: [
+                "#b1dfb1 ",
+                "#dfb1b1 ",
+           
+            ],
+            hoverBackgroundColor: [
+                "#81C784",
+                "#f66464",
+            ]
+          }
+      ]
+    };
+
+ 
+
+    this.options = {
+      plugins: {      
+        tooltip: {
+          enabled: false
+        },
+        datalabels: {
+      /*     borderRadius: 4,
+          backgroundColor: "#00000078", */
+
+          formatter: function(value, context) {
+            if(value>0){
+
+              return value
+            } else {
+              return null
+            }
+        },
+        
+          color: 'black',
+          font: {
+            weight: 'bold',
+            size: 16
+          }
+        },
+      
+      title: {
+          display: true,
+          text: 'Tasks',
+          fontSize: 16
+      },
+      legend: {
+          position: 'bottom'
+      }
+  }
+    };
+  }
 
   openNewTask(){
-    this.taskSelecionada.id = null
+    this.taskSelecionada.id = null;
+    this.newTaskObj.descricao = ''
     this.newTaskDialog = true;
   }
 
@@ -68,6 +133,11 @@ export class ListarComponent implements OnInit {
 
   taskDone(task: Task){
     this.taskService.endTask(task); 
+    this.getTasks();
+  }
+
+    update(event: Event) {
+
   }
 
 }
