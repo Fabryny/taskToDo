@@ -24,9 +24,9 @@
     </div>
 </div>
 
-<div class="col-12 inline-flex">
+<div class="col-12 sm:inline-flex">
     
-<p-button class="mr-2" label="Nova tarefa" (click)="openNewTask()" ></p-button>
+    <p-button class="mr-2" label="Nova tarefa" (click)="openNewTask()" ></p-button>
 
     <span class="p-float-label mr-2">
         <input id="float-input" type="text" pInputText (input)="dt.filter($event.target.value, 'descricao','contains')"> 
