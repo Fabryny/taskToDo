@@ -1,7 +1,12 @@
+import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Task } from 'src/app/shared/models/task';
 import { TaskService } from 'src/app/shared/services/task.service';
 
+declare var navigator: any
+
+declare var google: any
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
@@ -17,15 +22,44 @@ export class ListarComponent implements OnInit {
   tasks: Task[];
   taskSelecionada: Task = new Task;
 
+  location: string
+  locOption: any;
+  latitude: number;
+  longitude: number;
+
   colunas: any[];
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService,
+              private msg: MessageService) { }
 
   ngOnInit(): void {
     this.getTasks();
+    this.getLocation();
+
     this.colunas = [
       { field: 'descricao', header: 'Descrição'},
     ]
   }
+
+  getLocation(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude
+        this.longitude = position.coords.longitude
+          this.location = `${this.latitude},${this.longitude}`
+
+          this.locOption = {
+            center: {lat: this.latitude, lng: this.longitude},
+            zoom: 12
+        };
+      })
+    } 
+    return ''
+  }
+
+  getMap(): string {
+  	return "https://www.google.com/maps/search/?api=1&query=" + this.location;
+  }
+
 
   getTasks(){
     this.tasks = this.taskService.getTasks();
@@ -58,8 +92,6 @@ export class ListarComponent implements OnInit {
           }
       ]
     };
-
- 
 
     this.options = {
       plugins: {      
@@ -136,8 +168,22 @@ export class ListarComponent implements OnInit {
     this.getTasks();
   }
 
-    update(event: Event) {
 
+  filtrarLista(ev: Event){ 
+    this.getTasks();
+    const evento = ev.target as HTMLInputElement
+
+
+    console.log(evento.value);
+
+    this.tasks = this.tasks.filter(value => {
+      return value.descricao.toLowerCase().includes(evento.value);
+      
+     });
+      
+
+    
+
+    
   }
-
 }

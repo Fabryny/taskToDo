@@ -18,8 +18,8 @@ import { PRIMENG_IMPORTS } from './primeNg-imports';
   imports: [
     CommonModule,
     FormsModule,
+    ...PRIMENG_IMPORTS,
 
-    ...PRIMENG_IMPORTS
   ],
   exports:[
     ListarComponent,

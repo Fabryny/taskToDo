@@ -8,6 +8,7 @@ import { ComponentsModule } from './components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TaskDoneDirective } from './shared/driectives/task-done.directive';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { TaskDoneDirective } from './shared/driectives/task-done.directive';
 
     AppRoutingModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

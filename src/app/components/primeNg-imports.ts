@@ -9,6 +9,10 @@ import {FieldsetModule} from 'primeng/fieldset';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {DropdownModule} from 'primeng/dropdown';
 import {ChartModule} from 'primeng/chart';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {GMapModule} from 'primeng/gmap';
+import {ToastModule} from 'primeng/toast';
 
 export const PRIMENG_IMPORTS = [
     ButtonModule,
@@ -20,5 +24,9 @@ export const PRIMENG_IMPORTS = [
     TableModule,
     TriStateCheckboxModule,
     DropdownModule,
-    ChartModule
+    ChartModule,
+    MessageModule,
+    MessagesModule,
+    GMapModule,
+    ToastModule
 ]
