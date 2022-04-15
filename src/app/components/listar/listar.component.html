@@ -24,14 +24,24 @@
     </div>
 </div>
 
+<div class="col-12 inline-flex">
+    
+<p-button class="mr-2" label="Nova tarefa" (click)="openNewTask()" ></p-button>
 
-<p-button label="Novo" (click)="openNewTask()" ></p-button>
+    <span class="p-float-label mr-2">
+        <input id="float-input" type="text" pInputText (input)="dt.filter($event.target.value, 'descricao','contains')"> 
+        <label for="float-input">Pesquisar item (PrimeNg)</label>
+    </span>
+    
+    <span class="p-float-label">
+        <input id="float-input" type="text" pInputText (input)="filtrarLista($event)" > 
+        <label for="float-input">Pesquisar item (sem Primeng)</label>
+    </span>
+</div>
 
-
-<input type="text" placeholder="Pesquisa sem utilizar Primeng" (input)="filtrarLista($event)">
 
 <div class="card">
-    <p-table [value]="tasks" [columns]="colunas" 
+    <p-table #dt [value]="tasks" [columns]="colunas" 
              [reorderableColumns]="true" responsiveLayout="scroll" ><!-- sortMode="multiple" -->
         <ng-template pTemplate="header">
             <tr><!-- 
