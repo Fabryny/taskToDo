@@ -39,48 +39,45 @@
     </span>
 </div>
 
+<p-button  label="Exportar p/ PDF com canvas" (click)="exportPdf()" ></p-button>
+<p-button  label="Exportar p/ PDF com primeng" (click)="exportPdfPrimeNG()" ></p-button>
 
-<div class="card">
-    <p-table #dt [value]="tasks" [columns]="colunas" 
+
+<div class="card" id="dataTable">
+    <p-table #dt [value]="tasks" [columns]="colunas"  
              [reorderableColumns]="true" responsiveLayout="scroll" ><!-- sortMode="multiple" -->
         <ng-template pTemplate="header">
             <tr><!-- 
                 <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th> -->
-                <th>
+                <th data-html2canvas-ignore >
 
                 </th>
                 <th *ngFor="let col of colunas" pReorderableColumn  pSortableColumn="descricao">
                     {{col.header}}
-                    <p-sortIcon field="descricao"></p-sortIcon>
+                    <p-sortIcon field="descricao" data-html2canvas-ignore></p-sortIcon>
                 </th>
-                <th pSortableColumn="concluida">
-                    Concluída
-                    <p-sortIcon field="concluida"></p-sortIcon>
-                </th>
-                <th>
+                <th data-html2canvas-ignore>
                     
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task let-rowData let-columns="columns" let-index="rowIndex">
             <tr [pReorderableRow]="index" [ngClass]="{'bg-green' : task.concluida , 'bg-red' : !task.concluida}">
-                <td>
+                <td data-html2canvas-ignore>
                     <span class="pi pi-bars" pReorderableRowHandle></span>
                 </td>  
                 <td *ngFor="let col of columns">
-                    <div class="" [taskDone]="task.concluida">
+                    <div class="" [taskDone]="task.concluida" *ngIf="col.field !== 'concluida'">
                         {{rowData[col.field]}}
                     </div>
-                </td> 
-                <td>
-                    <div class="field-checkbox">
-                        <p-checkbox [(ngModel)]="task.concluida" 
+                        <p-checkbox *ngIf="col.field === 'concluida'"
+                                    [(ngModel)]="task.concluida" 
                                     binary="true" inputId="binary"
                                     (click)="taskDone(task)">
                         </p-checkbox>
-                    </div>
-                </td>
-                <td>
+                  
+                </td> 
+                <td data-html2canvas-ignore>
                     <button pButton pRipple type="button" 
                             icon="pi pi-times" class="p-button-rounded p-button-danger"
                             (click)="deleteTask(rowData)">
